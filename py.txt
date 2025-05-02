@@ -1,0 +1,51 @@
+# Step 1 Import Libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 2 Load Dataset
+# Assuming you have a CSV file with sensor readings and failure status
+data = pd.read_csv(sensor_data.csv)
+
+# Step 3 Data Preprocessing
+# Fill missing values
+data.fillna(method='ffill', inplace=True)
+
+# Feature and target split
+X = data.drop('Failure', axis=1)
+y = data['Failure']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 4 Train Model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Step 5 Evaluate Model
+y_pred = model.predict(X_test)
+print(Classification Reportn, classification_report(y_test, y_pred))
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.title(Confusion Matrix)
+plt.xlabel(Predicted)
+plt.ylabel(Actual)
+plt.show()
+
+# Step 6 Predict on New Data
+# Example new sensor input
+new_data = pd.DataFrame({
+    'Temperature' [75],
+    'Vibration' [0.3],
+    'Pressure' [10],
+    'RunTime' [500]
+})
+
+prediction = model.predict(new_data)
+print(Prediction (1 = Failure, 0 = Normal), prediction[0])
